@@ -11,7 +11,7 @@ This project implements core functionality of a Doubly Linked List in C#. It is 
 ## Technologies
 - C#
 - .NET SDK
-- Visual Studio
+- Visual Studio Code
 
 ## Setup
 1. Clone the repository
