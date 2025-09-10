@@ -44,7 +44,7 @@ namespace DataStructures
         private void Insert(DNode<T>? node, T item)
         {
             if (node == null)
-                throw new ArgumentNullException(nameof(node));
+                throw new ArgumentNullException("Node is invalid");
 
             // Make the new item a DNode
             DNode<T> newnode = new DNode<T>(item);
@@ -196,6 +196,41 @@ namespace DataStructures
             Insert(tail, item);
         }
 
+        public void Clear()
+        {
+            // Create a node that starts at the first valid node
+            DNode<T> start = head.Right!;
+            // Use remove until the next node points to the tail
+            {
+                while (start != tail)
+                {
+                    DNode<T> right = start.Right!;
+                    Remove(start);
+                    // Update start to go to next node
+                    start = right;
+                }
+            }
+        }
+        public bool IsEmpty()
+        {
+            if (size == 0) return true;
+            return false;
+        }
+        // Property that returns the current number of elements in a list
+        public int Count
+        {
+            get { return size; }
+        }
+        // Property that returns that returns false; list allows modifications
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+        // Appends item to the end of the list, previous PushBack() function
+        public void Add(T item)
+        {
+            PushBack(item);
+        }
         public void Insert(int index, T item)
         {
             if (index < 0 || index > size)
@@ -278,9 +313,9 @@ namespace DataStructures
             DNode<T>? current = head.Right!;
             int i = arrayIndex;
 
-            while (current != null)
+            while (current != tail)
             {
-                array[i++] = current.Value;
+                array[i++] = current!.Value;
                 current = current.Right;
             }
 
