@@ -100,7 +100,7 @@ namespace DataStructures
             DNode<T>? start = head.Right;
             for (int i = 0; i < size; i++)
             {
-                // Use equality comparer because of type T
+                // Equality comparer because of type T
                 if (start != null && EqualityComparer<T>.Default.Equals(start.Value, item))
                     return true;
                 start = start?.Right;
@@ -113,7 +113,7 @@ namespace DataStructures
             return size;
         }
 
-        // Fixed: Proper ToString implementation with override keyword
+        
         public override string ToString()
         {
             var result = new StringBuilder("[");
@@ -130,7 +130,7 @@ namespace DataStructures
             return result.ToString();
         }
 
-        // Fixed: Corrected logic and parameter handling
+        
         public bool Remove(T item)
         {
             DNode<T>? start = head.Right;
@@ -138,23 +138,23 @@ namespace DataStructures
             {
                 if (start != null && EqualityComparer<T>.Default.Equals(start.Value, item))
                 {
-                    // Fixed: Call Remove with the node, not the item
+                    
                     Remove(start);
-                    return true; // Fixed: Return moved to correct location
+                    return true; 
                 }
                 start = start?.Right;
             }
             return false;
         }
 
-        // Fixed: Proper exception syntax and property access
+        
         public T Front()
         {
-            // Fixed: Proper exception instantiation
+            
             if (size == 0)
                 throw new InvalidOperationException("List is empty");
 
-            // Fixed: Use correct property name (Right instead of next)
+            
             return head.Right!.Value;
         }
 
@@ -171,7 +171,7 @@ namespace DataStructures
         {
             if (size == 0)
                 throw new InvalidOperationException("List is empty");
-            // Return element after head AKA head.next
+            // Return element after head AKA head.Right
             T first = head.Right!.Value;
             Remove(first);
             return first;
@@ -188,7 +188,7 @@ namespace DataStructures
 
         public void PushFront(T item)
         {
-            // DNode<T> node = new DNode<T>(item);
+            DNode<T> node = new DNode<T>(item);
             Insert(head.Right!, item);
         }
         public void PushBack(T item)
@@ -291,9 +291,9 @@ namespace DataStructures
         {
             DNode<T>? current = head.Right!;
 
-            while (current != null)
+            while (current != tail)
             {
-                yield return current.Value; // yield each item in list
+                yield return current!.Value; // yield each item in list
                 current = current.Right;
             }
         }
