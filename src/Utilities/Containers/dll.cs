@@ -22,17 +22,17 @@ namespace DataStructures
         }
     }
 
-    // DLL class - Your original methods with compilation fixes only
-    public class DLL<T>
+
+    public class DLL<T> : IEnumerable<T>
     {
-        // Fixed: Changed from T to DNode<T> for sentinel nodes
+
         public DNode<T> head;
         public DNode<T> tail;
         public int size;
 
         public DLL()
         {
-            // Fixed: Proper object instantiation for sentinel nodes
+            // Instantiation for sentinel nodes
             this.head = new DNode<T>(default(T)!);
             this.tail = new DNode<T>(default(T)!);
             this.head.Right = tail;
@@ -40,7 +40,7 @@ namespace DataStructures
             this.size = 0;
         }
 
-        // Fixed: Added proper parameter validation
+
         private void Insert(DNode<T>? node, T item)
         {
             if (node == null)
@@ -59,10 +59,10 @@ namespace DataStructures
             size++;
         }
 
-        // Fixed: Added proper validation and exception handling
+
         private void Remove(DNode<T>? node)
         {
-            // Fixed: Proper validation for sentinel nodes
+            // Confirm if check for null is necessary
             if (node == null || node == head || node == tail)
                 throw new InvalidOperationException("Cannot remove sentinel nodes or null");
 
@@ -71,27 +71,28 @@ namespace DataStructures
             size--;
         }
 
-        // Fixed: Added proper return statement and exception syntax
+
         private DNode<T>? GetNode(int index)
         {
-            // Fixed: Proper exception instantiation
+
             if (index < 0 || index >= size)
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException("Index out of range");
 
             // Start at first valid node
-            DNode<T>? start = head.Right;
+            DNode<T> start = head.Right!;
             int i = 0;
 
             while (start != tail)
             {
                 // If i = index, return the node, else keep going through the list
                 if (i == index) return start;
-                start = start?.Right;
+                start = start.Right!;
                 i++;
             }
 
-            // Fixed: Added return for edge case
-            throw new InvalidOperationException("Index not found");
+            return start;
+
+
         }
 
         public bool Contains(T item)
@@ -229,11 +230,85 @@ namespace DataStructures
             return -1;
 
         }
+
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= size)
+                    throw new ArgumentOutOfRangeException("Index is out of range");
+
+                DNode<T>? node = GetNode(index);
+                return node!.Value;
+            }
+
+            set
+            {
+                if (index < 0 || index >= size)
+                    throw new ArgumentOutOfRangeException("Index is out of range");
+
+                DNode<T>? node = GetNode(index);
+                node!.Value = value;
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= size)
+                throw new ArgumentOutOfRangeException("Index is out of range");
+
+            // Retrieve desired node then delete
+            DNode<T>? node = GetNode(index);
+            Remove(node);
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+                throw new ArgumentNullException("Array is null");
+
+            if (arrayIndex < 0 || arrayIndex >= size)
+                throw new ArgumentOutOfRangeException("Index is out of range");
+
+            // Check if there is enough space from index to end of array
+            if (arrayIndex + size > array.Length)
+                throw new ArgumentException("Not enough space in array");
+
+            // Begin after sentinel head node
+            DNode<T>? current = head.Right!;
+            int i = arrayIndex;
+
+            while (current != null)
+            {
+                array[i++] = current.Value;
+                current = current.Right;
+            }
+
+        }
+
+        //
+        public IEnumerator<T> GetEnumerator()
+        {
+            DNode<T>? current = head.Right!;
+
+            while (current != null)
+            {
+                yield return current.Value; // yield each item in list
+                current = current.Right;
+            }
+        }
+
+        // Generic version of GetEnumerator
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
         
+        }
         
 
     }
 
         
 
-    }
+    
