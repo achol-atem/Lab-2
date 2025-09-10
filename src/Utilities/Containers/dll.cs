@@ -167,37 +167,73 @@ namespace DataStructures
 
 
         public T PopFront(T item)
-    {
-        if (size == 0)
+        {
+            if (size == 0)
                 throw new InvalidOperationException("List is empty");
-        // Return element after head AKA head.next
-        T first = head.Right!.Value;
-        Remove(first);
-        return first;
-    }
-    public T PopBack(T item)
-    {
-        if (size == 0)
+            // Return element after head AKA head.next
+            T first = head.Right!.Value;
+            Remove(first);
+            return first;
+        }
+        public T PopBack(T item)
+        {
+            if (size == 0)
                 throw new InvalidOperationException("List is empty");
-        // Return element before tail
-        T last = tail.Left!.Value;
-        Remove(last);
-        return last;
-    }
+            // Return element before tail
+            T last = tail.Left!.Value;
+            Remove(last);
+            return last;
+        }
 
-    public void PushFront(T item)
-    {
-        // DNode<T> node = new DNode<T>(item);
-        Insert(head.Right!, item);
-    }
-    public void PushBack(T item)
-    {
+        public void PushFront(T item)
+        {
+            // DNode<T> node = new DNode<T>(item);
+            Insert(head.Right!, item);
+        }
+        public void PushBack(T item)
+        {
             Insert(tail, item);
-    }
+        }
 
-    
+        public void Insert(int index, T item)
+        {
+            if (index < 0 || index > size)
+                throw new ArgumentOutOfRangeException("Index is out of range");
+
+            if (index == size)
+                Insert(tail, item);
+
+            else
+                Insert(GetNode(index), item);
+
+
+        }
+
+        public int IndexOf(T item)
+        {
+            int index = 0;
+            DNode<T> current = head.Right!;
+
+            while (current != tail)
+            {
+                if (EqualityComparer<T>.Default.Equals(current.Value, item))
+                {
+                    return index;
+                }
+
+                current = current.Right!;
+                index++;
+
+            }
+
+            return -1;
+
+        }
+        
+        
+
+    }
 
         
 
     }
-}
