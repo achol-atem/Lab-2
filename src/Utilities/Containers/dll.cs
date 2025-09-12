@@ -321,7 +321,7 @@ namespace DataStructures
 
         }
 
-        //
+        
         public IEnumerator<T> GetEnumerator()
         {
             DNode<T>? current = head.Right!;
