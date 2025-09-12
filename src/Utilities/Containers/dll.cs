@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataStructures
 {
-    // DNode class that can store any value
+    // DNode class that stores type T
     public class DNode<T>
     {
         public T Value;
@@ -62,7 +62,7 @@ namespace DataStructures
 
         private void Remove(DNode<T>? node)
         {
-            // Confirm if check for null is necessary
+            // Check if node is sentinel or null
             if (node == null || node == head || node == tail)
                 throw new InvalidOperationException("Cannot remove sentinel nodes or null");
 
@@ -74,7 +74,7 @@ namespace DataStructures
 
         private DNode<T>? GetNode(int index)
         {
-
+            // Index cannot be negative or greater than size of list
             if (index < 0 || index >= size)
                 throw new ArgumentOutOfRangeException("Index out of range");
 
@@ -94,7 +94,7 @@ namespace DataStructures
 
 
         }
-
+        // Confirms whether list contains specified item
         public bool Contains(T item)
         {
             DNode<T>? start = head.Right;
@@ -136,6 +136,7 @@ namespace DataStructures
             DNode<T>? start = head.Right;
             for (int i = 0; i < size; i++)
             {
+                // If the node value is equal to given item, remove it
                 if (start != null && EqualityComparer<T>.Default.Equals(start.Value, item))
                 {
                     
@@ -167,7 +168,7 @@ namespace DataStructures
         }
 
 
-        public T PopFront(T item)
+        public T PopFront()
         {
             if (size == 0)
                 throw new InvalidOperationException("List is empty");
@@ -176,7 +177,7 @@ namespace DataStructures
             Remove(first);
             return first;
         }
-        public T PopBack(T item)
+        public T PopBack()
         {
             if (size == 0)
                 throw new InvalidOperationException("List is empty");
@@ -188,11 +189,14 @@ namespace DataStructures
 
         public void PushFront(T item)
         {
+            // New node with item
             DNode<T> node = new DNode<T>(item);
+            // Insert before the first valid node AKA head.right
             Insert(head.Right!, item);
         }
         public void PushBack(T item)
         {
+            // Insert before tail
             Insert(tail, item);
         }
 
