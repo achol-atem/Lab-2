@@ -1,3 +1,14 @@
+
+/**
+* DLL Testing suite that checks the functionalities of dll methods, specifically edge cases and
+* exceptions etc.
+* 
+*
+* Bugs: (a list of bugs and / or other problems)
+*
+* @author <Claude and ChatGPT>
+* @date <9/12/2025>
+*/
 using System;
 using System.Collections.Generic; // Added for List<T> usage
 using Xunit;
