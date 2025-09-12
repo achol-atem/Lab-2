@@ -240,15 +240,23 @@ namespace DataStructures
             if (index < 0 || index > size)
                 throw new ArgumentOutOfRangeException("Index is out of range");
 
+            // Insert at tail when index equals size        
             if (index == size)
                 Insert(tail, item);
 
+            // Insert before the node at the specified index
             else
                 Insert(GetNode(index), item);
 
 
         }
-
+        /// <summary>
+        /// Searches for the specified item and returns the index of the first occurrence.
+        /// </summary>
+        /// <param name="item">The item to locate in the list.</param>
+        /// <returns>
+        /// The first occurrence of item if found; otherwise, -1.
+        /// </returns>
         public int IndexOf(T item)
         {
             int index = 0;
@@ -269,6 +277,15 @@ namespace DataStructures
             return -1;
 
         }
+
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element to get or set.</param>
+        /// <returns>The element at the specified index.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when index is less than 0 or greater than or equal to the size of the list.
+        /// </exception>
 
         public T this[int index]
         {
@@ -296,7 +313,7 @@ namespace DataStructures
             if (index < 0 || index >= size)
                 throw new ArgumentOutOfRangeException("Index is out of range");
 
-            // Retrieve desired node then delete
+            // Retrieve desired node then delete using Remove()
             DNode<T>? node = GetNode(index);
             Remove(node);
         }
@@ -309,11 +326,11 @@ namespace DataStructures
             if (arrayIndex < 0 || arrayIndex >= size)
                 throw new ArgumentOutOfRangeException("Index is out of range");
 
-            // Check if there is enough space from index to end of array
+            // Check if there is enough space in array
             if (arrayIndex + size > array.Length)
                 throw new ArgumentException("Not enough space in array");
 
-            // Begin after sentinel head node
+            // Begin copying after sentinel head node
             DNode<T>? current = head.Right!;
             int i = arrayIndex;
 
@@ -332,7 +349,7 @@ namespace DataStructures
 
             while (current != tail)
             {
-                yield return current!.Value; // yield each item in list
+                yield return current!.Value; // yield current item in list during iteration
                 current = current.Right;
             }
         }
