@@ -198,7 +198,7 @@ namespace DataStructures
         public void PushFront(T item)
         {
             // New node with item
-            DNode<T> node = new DNode<T>(item);
+            //DNode<T> node = new DNode<T>(item);
             // Insert before the first valid node AKA head.right
             Insert(head.Right!, item);
         }
