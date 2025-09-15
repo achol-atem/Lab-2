@@ -212,7 +212,7 @@ namespace DataStructures
         {
             // Create a node that starts at the first valid node
             DNode<T> start = head.Right!;
-            head.Right == tail
+            head.Right = tail;
             // Use remove until the next node points to the tail
             // {
             //     while (start != tail)
