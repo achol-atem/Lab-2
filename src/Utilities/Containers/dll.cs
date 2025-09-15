@@ -212,16 +212,17 @@ namespace DataStructures
         {
             // Create a node that starts at the first valid node
             DNode<T> start = head.Right!;
+            head.Right == tail
             // Use remove until the next node points to the tail
-            {
-                while (start != tail)
-                {
-                    DNode<T> right = start.Right!;
-                    Remove(start);
-                    // Update start to go to next node
-                    start = right;
-                }
-            }
+            // {
+            //     while (start != tail)
+            //     {
+            //         DNode<T> right = start.Right!;
+            //         Remove(start);
+            //         // Update start to go to next node
+            //         start = right;
+            //     }
+            // }
         }
         public bool IsEmpty()
         {
