@@ -90,18 +90,11 @@ namespace DataStructures
 
                 // Start at first valid node
                 DNode<T> start = head.Right!;
-                int i = 0;
-
-                while (start != tail)
-                {
-                    // If i = index, return the node, else keep going through the list
-                    if (i == index) return start;
+                for (int i = 0; i < index; i++)
+                {       
                     start = start.Right!;
-                    i++;
                 }
-
                 return start;
-
 
             }
             // Confirms whether list contains specified item
@@ -336,7 +329,7 @@ namespace DataStructures
                 if (array == null)
                     throw new ArgumentNullException("Array is null");
 
-                if (arrayIndex < 0 || arrayIndex >= size)
+                if (arrayIndex < 0 )
                     throw new ArgumentOutOfRangeException("Index is out of range");
 
                 // Check if there is enough space in array
