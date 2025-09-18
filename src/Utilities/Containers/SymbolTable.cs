@@ -26,7 +26,7 @@ namespace DataStructures
         {
             parent = null;
         }
-    
+
 
         private SymbolTable<TKey, TValue>? parent;
         public SymbolTable<TKey, TValue>? Parent
@@ -35,8 +35,26 @@ namespace DataStructures
 
         }
 
+        public SymbolTable(SymbolTable<TKey, TValue> parent)
+        {
+            this.parent = parent;
+        }
+
+        private int FindIndex(TKey key)
+        {
+            for (int i = 0; i < dll_keys.Count; i++)
+            {
+                if (EqualityComparer<TKey>.Default.Equals(dll_keys[i], key))
+                {
+                    return i;
+                }
+
+            }
+            return -1;
+        }
+
         public TValue this[TKey key]
-        {get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         
 
@@ -63,6 +81,8 @@ namespace DataStructures
             dll_keys.Clear();
             dll_values.Clear();
         }
+
+    
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
