@@ -67,12 +67,23 @@ namespace DataStructures
         public bool IsReadOnly => false;
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            if (key == null || value == null)
+            {
+                throw new ArgumentNullException();
+            }
+            dll_keys.Add(key)
+            dll_values.Add(value);
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            Add(item.Key, item.Value);
+            if (item.Key == null || item.Value == null)
+            {
+                throw new ArgumentNullException();
+            }
+            dll_keys.Add(item.Key);
+            dll_values.Add(item.Value);
+            // Add(item.Key, item.Value)
         }
          
         
@@ -83,15 +94,14 @@ namespace DataStructures
         }
 
     
-
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return dll_keys.Contains(item.Key) && dll_values.Contains(item.Value);
         }
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            return dll_keys.Contains(key);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -106,12 +116,14 @@ namespace DataStructures
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            // What happens when value doesn't have corresponding key
+            // Find the value corresponding to key then remove the value
+            return dll_keys.Remove(key)
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return dll_keys.Remove(item.Key) && dll_values.Remove(item.Value);
         }
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
@@ -122,6 +134,16 @@ namespace DataStructures
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public bool ContainsKeyLocal(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetValueLocal(TKey key, out TValue value)
+        {
+            throw new NotImplementedException();
         }
 
         
