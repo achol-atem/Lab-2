@@ -53,14 +53,18 @@ namespace DataStructures
             return -1;
         }
 
+        // WORK ON THIS
         public TValue this[TKey key]
         { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        
 
-        public ICollection<TKey> Keys => throw new NotImplementedException();
 
-        public ICollection<TValue> Values => throw new NotImplementedException();
+        // WORK ON THIS
+        public ICollection<TKey>? Keys { get; }
+
+
+        // WORK ON THIS
+        public ICollection<TValue>? Values { get; }
 
         public int Count => dll_keys.Count;
 
@@ -69,21 +73,19 @@ namespace DataStructures
         {
             if (key == null || value == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Input passed in is null");
             }
-            dll_keys.Add(key)
+            if (FindIndex(key) >= 0)
+            {
+                throw new ArgumentException("A similar key exists");
+            }
+            dll_keys.Add(key);
             dll_values.Add(value);
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            if (item.Key == null || item.Value == null)
-            {
-                throw new ArgumentNullException();
-            }
-            dll_keys.Add(item.Key);
-            dll_values.Add(item.Value);
-            // Add(item.Key, item.Value)
+            Add(item.Key, item.Value);
         }
          
         
@@ -96,14 +98,29 @@ namespace DataStructures
     
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return dll_keys.Contains(item.Key) && dll_values.Contains(item.Value);
+            if (item.Key == null)
+                throw new ArgumentNullException("Key passed in is null");
+
+            int index = FindIndex(item.Key);
+            if (index >= 0)
+            {
+                return EqualityComparer<TValue>.Default.Equals(dll_values[index], item.Value);
+            }
+
+            return false;
         }
 
         public bool ContainsKey(TKey key)
         {
-            return dll_keys.Contains(key);
+            if (key == null)
+                throw new ArgumentNullException("Key passed in is null");
+
+            return FindIndex(key)>= 0;
+
         }
 
+
+        // WORK ON THIS
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
@@ -111,24 +128,55 @@ namespace DataStructures
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            dll_keys.GetEnumerator();
+            dll_values.GetEnumerator();
         }
 
         public bool Remove(TKey key)
         {
-            // What happens when value doesn't have corresponding key
-            // Find the value corresponding to key then remove the value
-            return dll_keys.Remove(key)
+            int index = FindIndex(key);
+            if (index == -1)
+                {
+                return false;
+                }
+    
+            dll_keys.RemoveAt(index);
+            dll_values.RemoveAt(index);
+            return true;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return dll_keys.Remove(item.Key) && dll_values.Remove(item.Value);
+            int index = FindIndex(item.Key);
+            if (index == -1)
+            {
+                return false;
+            }
+
+            if (!EqualityComparer<TValue>.Default.Equals(dll_values[index], item.Value))
+            {
+                return false;
+            }
+            dll_keys.RemoveAt(index);
+            dll_values.RemoveAt(index);
+            return true;
         }
 
+        // WORK ON THIS
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            throw new NotImplementedException();
+            if (key == null)
+                throw new ArgumentNullException("Key passed in is null");
+
+            int index = FindIndex(key);
+            if (index >= 0)
+            {
+                value = dll_values[index];
+                return true;
+            }
+            // General syntax for methods with out
+            value = default;
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -136,11 +184,13 @@ namespace DataStructures
             return GetEnumerator();
         }
 
+        // WORK ON THIS
         public bool ContainsKeyLocal(TKey key)
         {
             throw new NotImplementedException();
         }
 
+        // WORK ON THIS
         public bool TryGetValueLocal(TKey key, out TValue value)
         {
             throw new NotImplementedException();
